@@ -11,34 +11,37 @@ const inputReducer = (state, action) => {
         value: action.val,
         isValid: validate(action.val, action.validators),
       };
-    case 'TOUCH':
+    case 'TOUCH': {
       return {
         ...state,
         isTouched: true,
       };
+    }
     default:
       return state;
   }
 };
 
 const Input = ({
+  initialValue,
+  initialValid,
   id,
-  label,
-  placeholder,
-  element,
+  onInput,
   type,
+  placeholder,
+  label,
+  element,
   rows,
   errorText,
   validators,
-  onInput,
-  value,
-  isValid,
 }) => {
   const [inputState, dispatch] = useReducer(inputReducer, {
-    value: value || '',
+    value: initialValue || '',
     isTouched: false,
-    isValid: isValid || false,
+    isValid: initialValid || false,
   });
+
+  const { value, isValid } = inputState;
 
   useEffect(() => {
     onInput(id, value, isValid);

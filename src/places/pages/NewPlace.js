@@ -1,39 +1,14 @@
-import React, { useCallback, useReducer } from 'react';
+import React from 'react';
 
 import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
 import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH } from '../../shared/util/validators';
+import { useForm } from '../../shared/hooks/form-hook';
 import './PlaceForm.css';
 
-const formReducer = (state, action) => {
-  switch (action.type) {
-    case 'INPUT_CHANGE': {
-      let formIsValid = true;
-      Object.keys(state.inputs).map((inputId) => {
-        if (inputId === action.inputId) {
-          formIsValid = formIsValid && action.isValid;
-        } else {
-          formIsValid = formIsValid && state.inputs[inputId].isValid;
-        }
-        return formIsValid;
-      });
-      return {
-        ...state,
-        inputs: {
-          ...state.inputs,
-          [action.inputId]: { value: action.value, isValid: action.isValid },
-        },
-        isValid: formIsValid,
-      };
-    }
-    default:
-      return state;
-  }
-};
-
 const NewPlace = () => {
-  const [formState, dispatch] = useReducer(formReducer, {
-    inputs: {
+  const [formState, inputHandler] = useForm(
+    {
       title: {
         value: '',
         isValid: false,
@@ -47,21 +22,12 @@ const NewPlace = () => {
         isValid: false,
       },
     },
-    isValid: false,
-  });
-
-  const inputHandler = useCallback((id, value, isValid) => {
-    dispatch({
-      type: 'INPUT_CHANGE',
-      value,
-      isValid,
-      inputId: id,
-    });
-  }, []);
+    false,
+  );
 
   const placeSubmitHandler = (event) => {
     event.preventDefault();
-    console.log(formState.inputs); // set this to the backend;
+    console.log(formState.inputs);
   };
 
   return (
@@ -80,12 +46,13 @@ const NewPlace = () => {
         element="textarea"
         label="Description"
         validators={[VALIDATOR_MINLENGTH(5)]}
-        errorText="Please enter a valid description (at least 5 chaaracters)."
+        errorText="Please enter a valid description (at least 5 characters)."
         onInput={inputHandler}
       />
       <Input
         id="address"
         element="input"
+        type="text"
         label="Address"
         validators={[VALIDATOR_REQUIRE()]}
         errorText="Please enter a valid address."
