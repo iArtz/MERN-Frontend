@@ -2,22 +2,23 @@ import React from 'react';
 
 import Card from '../../shared/components/UIElements/Card';
 import PlaceItem from './PlaceItem';
-import './PlaceList.css';
+import Button from '../../shared/components/FormElements/Button';
+import './PlaceItem.css';
 
 const PlaceList = ({ items }) => {
   if (items.length === 0) {
     return (
-      <Card>
-        <div className="place-list center">
+      <div className="place-list center">
+        <Card>
           <h2>No places found. Maybe create one?</h2>
-          <button type="button">Share Place</button>
-        </div>
-      </Card>
+          <Button to="/places/new">Share Place</Button>
+        </Card>
+      </div>
     );
   }
 
   return (
-    <ul className="place-list">
+    <ul className="place-list center">
       {items.map((place) => (
         <PlaceItem
           key={place.id}
