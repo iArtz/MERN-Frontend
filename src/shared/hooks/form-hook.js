@@ -22,6 +22,12 @@ const formReducer = (state, action) => {
       };
     }
 
+    case 'SET_DATA':
+      return {
+        inputs: action.inputs,
+        isValid: action.formIsValid,
+      };
+
     default:
       return state;
   }
@@ -42,13 +48,21 @@ const useForm = (initialInputs, initialFormValidity) => {
     });
   }, []);
 
-  const setFormData = useCallback((inputData, formValidity) => {
+  const setFormData = useCallback((inputDate, formValidity) => {
     dispatch({
       type: 'SET_DATA',
-      inputs: inputData,
+      inputs: inputDate,
       formIsValid: formValidity,
     });
   }, []);
+
+  // const setFormData = useCallback((inputData, formValidity) => {
+  //   dispatch({
+  //     type: 'SET_DATA',
+  //     inputs: inputData,
+  //     formIsValid: formValidity,
+  //   });
+  // }, []);
 
   return [formState, inputHandler, setFormData];
 };
