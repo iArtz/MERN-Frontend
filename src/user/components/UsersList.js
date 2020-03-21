@@ -5,13 +5,12 @@ import Card from '../../shared/components/UIElements/Card';
 
 import './UsersList.css';
 
-const UserList = (props) => {
-  const { items } = props;
+const UsersList = ({ items }) => {
   if (items.length === 0) {
     return (
       <div className="center">
         <Card>
-          <h2>No user found.</h2>
+          <h2>No users found.</h2>
         </Card>
       </div>
     );
@@ -32,4 +31,4 @@ const UserList = (props) => {
   );
 };
 
-export default UserList;
+export default UsersList;

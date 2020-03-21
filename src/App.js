@@ -11,7 +11,7 @@ import UpdatePlace from './places/pages/UpdatePlace';
 import Auth from './user/pages/Auth';
 import { AuthContext } from './shared/context/auth-context';
 
-function App() {
+const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const login = useCallback(() => {
@@ -36,7 +36,7 @@ function App() {
         <Route path="/places/new" exact>
           <NewPlace />
         </Route>
-        <Route path="/places/:placeId" exact>
+        <Route path="/places/:placeId">
           <UpdatePlace />
         </Route>
         <Redirect to="/" />
@@ -51,7 +51,7 @@ function App() {
         <Route path="/:userId/places" exact>
           <UserPlaces />
         </Route>
-        <Route path="/auth" exact>
+        <Route path="/auth">
           <Auth />
         </Route>
         <Redirect to="/auth" />
@@ -63,12 +63,10 @@ function App() {
     <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
       <Router>
         <MainNavigation />
-        <main>
-          {routes}
-        </main>
+        <main>{routes}</main>
       </Router>
     </AuthContext.Provider>
   );
-}
+};
 
 export default App;

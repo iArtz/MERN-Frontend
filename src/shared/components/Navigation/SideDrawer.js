@@ -9,8 +9,16 @@ import './SideDrawer.css';
 const SideDrawer = (props) => {
   const { children, show, onClick } = props;
   const content = (
-    <CSSTransition in={show} timeout={200} classNames="slide-in-left" mountOnEnter unmountOnExit>
-      <aside className="side-drawer" onClick={onClick}>{children}</aside>
+    <CSSTransition
+      in={show}
+      timeout={200}
+      classNames="slide-in-left"
+      mountOnEnter
+      unmountOnExit
+    >
+      <aside className="side-drawer" onClick={onClick}>
+        {children}
+      </aside>
     </CSSTransition>
   );
   return ReactDOM.createPortal(content, document.getElementById('drawer-hook'));

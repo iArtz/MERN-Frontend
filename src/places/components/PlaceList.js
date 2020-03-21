@@ -3,7 +3,7 @@ import React from 'react';
 import Card from '../../shared/components/UIElements/Card';
 import PlaceItem from './PlaceItem';
 import Button from '../../shared/components/FormElements/Button';
-import './PlaceItem.css';
+import './PlaceList.css';
 
 const PlaceList = ({ items }) => {
   if (items.length === 0) {
@@ -18,7 +18,7 @@ const PlaceList = ({ items }) => {
   }
 
   return (
-    <ul className="place-list center">
+    <ul className="place-list">
       {items.map((place) => (
         <PlaceItem
           key={place.id}

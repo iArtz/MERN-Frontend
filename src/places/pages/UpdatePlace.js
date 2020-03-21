@@ -90,7 +90,7 @@ const UpdatePlace = () => {
         element="textarea"
         label="Description"
         validators={[VALIDATOR_MINLENGTH(5)]}
-        errorText="Please enter a valid description."
+        errorText="Please enter a valid description (min. 5 characters)."
         onInput={inputHandler}
         initialValue={formState.inputs.description.value}
         initialValid={formState.inputs.description.isValid}

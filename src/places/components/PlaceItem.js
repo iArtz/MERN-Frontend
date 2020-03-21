@@ -14,22 +14,22 @@ const PlaceItem = ({
 
   const [showMap, setShowMap] = useState(false);
 
-  const [showConfirmModal, setShowConfirm] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const openMapHandler = () => setShowMap(true);
 
   const closeMapHandler = () => setShowMap(false);
 
   const showDeleteWarningHandler = () => {
-    setShowConfirm(true);
+    setShowConfirmModal(true);
   };
 
   const cancelDeleteHandler = () => {
-    setShowConfirm(false);
+    setShowConfirmModal(false);
   };
 
   const confirmDeleteHandler = () => {
-    setShowConfirm(false);
+    setShowConfirmModal(false);
     console.log('DELETING...');
   };
 
@@ -50,7 +50,7 @@ const PlaceItem = ({
       <Modal
         show={showConfirmModal}
         onCancel={cancelDeleteHandler}
-        header="Are yout sure?"
+        header="Are you sure?"
         footerClass="place-item___modal-actions"
         footer={(
           <>
@@ -77,17 +77,17 @@ const PlaceItem = ({
             <h2>{title}</h2>
             <h3>{address}</h3>
             <p>{description}</p>
-            <div className="place-item__actions">
-              <Button inverse onClick={openMapHandler}>
-                VIEW ON MAP
+          </div>
+          <div className="place-item__actions">
+            <Button inverse onClick={openMapHandler}>
+              VIEW ON MAP
+            </Button>
+            {auth.isLoggedIn && <Button to={`/places/${id}`}>EDIT</Button>}
+            {auth.isLoggedIn && (
+              <Button danger onClick={showDeleteWarningHandler}>
+                DELETE
               </Button>
-              {auth.isLoggedIn && <Button to={`/places/${id}`}>EDIT</Button>}
-              {auth.isLoggedIn && (
-                <Button danger onClick={showDeleteWarningHandler}>
-                  DELETE
-                </Button>
-              )}
-            </div>
+            )}
           </div>
         </Card>
       </li>
