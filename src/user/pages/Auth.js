@@ -30,9 +30,29 @@ const Auth = () => {
     false,
   );
 
-  const authSubmitHandler = (event) => {
+  const authSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log(formState.inputs);
+    // eslint-disable-next-line no-empty
+    if (isLoginMode) {
+    } else {
+      try {
+        const response = await fetch('http://localhost:5000/api/users/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: formState.inputs.name.value,
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value,
+          }),
+        });
+        const responseData = await response.json();
+        console.log(responseData);
+      } catch (err) {
+        console.log(err);
+      }
+    }
     auth.login();
   };
 
@@ -90,8 +110,8 @@ const Auth = () => {
           id="password"
           type="password"
           label="Password"
-          validators={[VALIDATOR_MINLENGTH(8)]}
-          errorText="Please enter a valid password, at least 8 characters."
+          validators={[VALIDATOR_MINLENGTH(6)]}
+          errorText="Please enter a valid password, at least 6 characters."
           onInput={inputHandler}
         />
         <Button type="submit" disabled={!formState.isValid}>
