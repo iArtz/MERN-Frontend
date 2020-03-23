@@ -2,7 +2,7 @@ import {
   useState, useCallback, useRef, useEffect,
 } from 'react';
 
-export const usHttpClient = () => {
+export const useHttpClient = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
 
@@ -24,32 +24,42 @@ export const usHttpClient = () => {
 
         const responseData = await response.json();
 
+        activeHttpRequests.current = activeHttpRequests.current.filter(
+          (reqCtrl) => reqCtrl !== httpAbortCtrl,
+        );
+
         if (!response.ok) {
           throw new Error(responseData.message);
         }
 
+        setIsLoading(false);
         return responseData;
       } catch (err) {
         setError(err.message);
+        setIsLoading(false);
+        throw err;
       }
-      setIsLoading(false);
     },
     [],
   );
 
-  // eslint-disable-next-line no-unused-vars
   const clearError = () => {
     setError(null);
   };
 
   useEffect(
     () => () => {
-      activeHttpRequests.current.forEach((abortCtrl) => abortCtrl.abortCtrl());
+      activeHttpRequests.current.forEach((abortCtrl) => abortCtrl.abort());
     },
     [],
   );
 
-  return { isLoading, error, sendRequest };
+  return {
+    isLoading,
+    error,
+    sendRequest,
+    clearError,
+  };
 };
 
-export default usHttpClient;
+export default useHttpClient;
