@@ -21,6 +21,16 @@ const PlaceList = ({ items, onDeletePlace }) => {
     );
   }
 
+  if (items.length === 0 && auth.userId !== userId) {
+    return (
+      <div className="place-list center">
+        <Card>
+          <h2>No places found. for this user</h2>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <ul className="place-list">
       {items.map((place) => (

@@ -11,7 +11,7 @@ import { useHttpClient } from '../../shared/hooks/http-hook';
 import './PlaceItem.css';
 
 const PlaceItem = ({
-  id, title, address, description, image, coordinates, onDelete,
+  id, title, address, description, image, coordinates, onDelete, creatorId,
 }) => {
   const {
     isLoading, error, sendRequest, clearError,
@@ -94,8 +94,8 @@ const PlaceItem = ({
             <Button inverse onClick={openMapHandler}>
               VIEW ON MAP
             </Button>
-            {auth.isLoggedIn && <Button to={`/places/${id}`}>EDIT</Button>}
-            {auth.isLoggedIn && (
+            {auth.userId === creatorId && <Button to={`/places/${id}`}>EDIT</Button>}
+            {auth.userId === creatorId && (
               <Button danger onClick={showDeleteWarningHandler}>
                 DELETE
               </Button>
