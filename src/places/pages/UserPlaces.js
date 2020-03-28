@@ -12,6 +12,7 @@ const UserPlaces = () => {
     isLoading, error, sendRequest, clearError,
   } = useHttpClient();
   const { userId } = useParams();
+
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
@@ -19,11 +20,16 @@ const UserPlaces = () => {
           `http://localhost:5000/api/places/user/${userId}`,
         );
         setLoadedPlaces(responseData.places);
-      // eslint-disable-next-line no-empty
+        // eslint-disable-next-line no-empty
       } catch (err) {}
     };
     fetchPlaces();
   }, [sendRequest, userId]);
+
+  const placeDeletedHandler = (deletedPlaceId) => {
+    setLoadedPlaces((prevPlaces) => prevPlaces.filter((place) => place.id !== deletedPlaceId));
+  };
+
   return (
     <>
       <ErrorModal error={error} onClear={clearError} />
@@ -32,7 +38,9 @@ const UserPlaces = () => {
           <LoadingSpinner />
         </div>
       )}
-      {!isLoading && loadedPlaces && <PlaceList items={loadedPlaces} />}
+      {!isLoading && loadedPlaces && (
+        <PlaceList items={loadedPlaces} onDeletePlace={placeDeletedHandler} />
+      )}
     </>
   );
 };

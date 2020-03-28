@@ -4,12 +4,18 @@ import Card from '../../shared/components/UIElements/Card';
 import Button from '../../shared/components/FormElements/Button';
 import Modal from '../../shared/components/UIElements/Modal';
 import Map from '../../shared/components/UIElements/Map';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import LoadindSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import { AuthContext } from '../../shared/context/auth-context';
+import { useHttpClient } from '../../shared/hooks/http-hook';
 import './PlaceItem.css';
 
 const PlaceItem = ({
-  id, title, address, description, image, coordinates,
+  id, title, address, description, image, coordinates, onDelete,
 }) => {
+  const {
+    isLoading, error, sendRequest, clearError,
+  } = useHttpClient();
   const auth = useContext(AuthContext);
 
   const [showMap, setShowMap] = useState(false);
@@ -28,13 +34,18 @@ const PlaceItem = ({
     setShowConfirmModal(false);
   };
 
-  const confirmDeleteHandler = () => {
+  const confirmDeleteHandler = async () => {
     setShowConfirmModal(false);
-    console.log('DELETING...');
+    try {
+      await sendRequest(`http://localhost:5000/api/places/${id}`, 'DELETE');
+      onDelete(id);
+    // eslint-disable-next-line no-empty
+    } catch (err) {}
   };
 
   return (
     <>
+      <ErrorModal error={error} onClear={clearError} />
       <Modal
         show={showMap}
         onCancel={closeMapHandler}
@@ -70,6 +81,7 @@ const PlaceItem = ({
       </Modal>
       <li className="place-item">
         <Card className="place-item__content">
+          {isLoading && <LoadindSpinner asOverlay />}
           <div className="place-item__image">
             <img src={image} alt={title} />
           </div>
