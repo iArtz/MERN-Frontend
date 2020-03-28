@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { useParams } from 'react-router-dom';
 
 import Card from '../../shared/components/UIElements/Card';
 import PlaceItem from './PlaceItem';
 import Button from '../../shared/components/FormElements/Button';
+import { AuthContext } from '../../shared/context/auth-context';
 import './PlaceList.css';
 
 const PlaceList = ({ items, onDeletePlace }) => {
-  if (items.length === 0) {
+  const auth = useContext(AuthContext);
+  const { userId } = useParams();
+  if (items.length === 0 && auth.userId === userId) {
     return (
       <div className="place-list center">
         <Card>
