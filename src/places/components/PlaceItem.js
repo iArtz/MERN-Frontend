@@ -37,7 +37,9 @@ const PlaceItem = ({
   const confirmDeleteHandler = async () => {
     setShowConfirmModal(false);
     try {
-      await sendRequest(`http://localhost:5000/api/places/${id}`, 'DELETE');
+      await sendRequest(`http://localhost:5000/api/places/${id}`, 'DELETE', null, {
+        Authorization: `Bearer ${auth.token}`,
+      });
       onDelete(id);
     // eslint-disable-next-line no-empty
     } catch (err) {}
