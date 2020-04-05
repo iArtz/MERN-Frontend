@@ -45,7 +45,7 @@ const PlaceItem = ({
     setShowConfirmModal(false);
     try {
       await sendRequest(
-        `${process.env.REACT_APP_BACKEND_URL}/api/places/${id}`,
+        `${process.env.REACT_APP_BACKEND_URL}/places/${id}`,
         'DELETE',
         null,
         {
