@@ -11,7 +11,14 @@ import { useHttpClient } from '../../shared/hooks/http-hook';
 import './PlaceItem.css';
 
 const PlaceItem = ({
-  id, title, address, description, image, coordinates, onDelete, creatorId,
+  id,
+  title,
+  address,
+  description,
+  image,
+  coordinates,
+  onDelete,
+  creatorId,
 }) => {
   const {
     isLoading, error, sendRequest, clearError,
@@ -37,11 +44,16 @@ const PlaceItem = ({
   const confirmDeleteHandler = async () => {
     setShowConfirmModal(false);
     try {
-      await sendRequest(`http://localhost:5000/api/places/${id}`, 'DELETE', null, {
-        Authorization: `Bearer ${auth.token}`,
-      });
+      await sendRequest(
+        `${process.env.REACT_APP_BACKEND_URL}/api/places/${id}`,
+        'DELETE',
+        null,
+        {
+          Authorization: `Bearer ${auth.token}`,
+        },
+      );
       onDelete(id);
-    // eslint-disable-next-line no-empty
+      // eslint-disable-next-line no-empty
     } catch (err) {}
   };
 
@@ -85,7 +97,7 @@ const PlaceItem = ({
         <Card className="place-item__content">
           {isLoading && <LoadindSpinner asOverlay />}
           <div className="place-item__image">
-            <img src={`http://localhost:5000/${image}`} alt={title} />
+            <img src={`${process.env.REACT_APP_ASSET_URL}/${image}`} alt={title} />
           </div>
           <div className="place-item__info">
             <h2>{title}</h2>
