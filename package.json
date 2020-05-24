@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "dependencies": {
     "react": "^16.11.0",
@@ -58,5 +58,5 @@
     "lint-staged": "^10.0.7",
     "prettier": "^1.19.1"
   },
-  "proxy": "http://localhost:5000/"
+  "proxy": "https://iartz-mern.herokuapp.com/"
 }
